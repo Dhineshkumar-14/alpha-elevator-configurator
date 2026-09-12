@@ -1,20 +1,19 @@
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ElevatorConfiguratorPage from "./pages/ElevatorConfiguratorPage";
 
 function App() {
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center">
-      <section className="rounded-xl bg-white p-10 text-center">
-        <h1 className="text-4xl font-bold text-blue-600">
-          Tailwind is Working 🚀
-        </h1>
+    <BrowserRouter>
+      <div className="min-h-screen bg-background text-text-primary">
+        <Routes>
+          {/* TODO: Add all pages once UI is ready */}
 
-        <p className="mt-4 text-gray-600">Alpha Elevator Configurator</p>
+          <Route path="/" element={<Navigate to="/configurator" replace />} />
 
-        <button className="mt-6 rounded-lg bg-black px-6 py-3 text-white hover:bg-gray-800">
-          Test Button
-        </button>
-      </section>
-    </main>
+          <Route path="/configurator" element={<ElevatorConfiguratorPage />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
