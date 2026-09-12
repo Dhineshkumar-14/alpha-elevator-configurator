@@ -9,14 +9,17 @@ const seedUsers = async () => {
       {
         name: "Arun Kumar",
         email: "arun@alphaelevators.com",
+        phone: "9876543210",
       },
       {
         name: "Priya Kumar",
         email: "priya@alphaelevators.com",
+        phone: "9876543211",
       },
       {
         name: "Karthik Raj",
         email: "karthik@alphaelevators.com",
+        phone: "9876543212",
       },
     ];
 
@@ -26,13 +29,14 @@ const seedUsers = async () => {
         INSERT INTO users (
           name,
           email,
+          phone_number,
           password_hash,
           role
         )
-        VALUES ($1, $2, $3, $4)
+        VALUES ($1, $2, $3, $4, $5)
         ON CONFLICT (email) DO NOTHING
         `,
-        [user.name, user.email, passwordHash, "employee"],
+        [user.name, user.email, user.phone, passwordHash, "employee"],
       );
     }
 
@@ -44,7 +48,7 @@ const seedUsers = async () => {
       console.error("Seed failed:", error);
     }
 
-    throw error; // important if startup should stop when seed fails
+    throw error;
   }
 };
 
