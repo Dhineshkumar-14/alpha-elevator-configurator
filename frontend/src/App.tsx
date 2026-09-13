@@ -1,16 +1,30 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import ElevatorConfiguratorPage from "./pages/ElevatorConfiguratorPage";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-background text-text-primary">
         <Routes>
-          {/* TODO: Add all pages once UI is ready */}
+          {/* Public Routes */}
+          <Route path="/login" element={<LoginPage />} />
 
-          <Route path="/" element={<Navigate to="/configurator" replace />} />
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/configurator"
+              element={<ElevatorConfiguratorPage />}
+            />
+          </Route>
 
-          <Route path="/configurator" element={<ElevatorConfiguratorPage />} />
+          {/* Default Route */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
     </BrowserRouter>
