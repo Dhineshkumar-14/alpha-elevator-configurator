@@ -101,3 +101,25 @@
   --shadow-panel: var(--token-shadow-panel);
   --shadow-accent: var(--token-shadow-accent);
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--token-color-border);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--token-color-accent);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--token-color-border) transparent;
+}
