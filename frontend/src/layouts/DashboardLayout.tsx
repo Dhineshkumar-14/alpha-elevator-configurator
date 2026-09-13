@@ -1,29 +1,42 @@
-// src/layouts/DashboardLayout.tsx
-
+import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    setCollapsed(location.pathname === "/configurator");
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen bg-background text-text-primary">
-      <Sidebar activePath={location.pathname} onNavigate={navigate} />
+      <Sidebar
+        activePath={location.pathname}
+        onNavigate={navigate}
+        collapsed={collapsed}
+        onCollapsedChange={setCollapsed}
+      />
 
-      {/* Main Content */}
-      <main
-        className="
+      <div
+        className={`
           min-h-screen
-          pt-16
-          lg:ml-[250px]
-          lg:pt-0
-        "
+          transition-[margin-left]
+          duration-300
+          ease-in-out
+          ${collapsed ? "ml-sidebar-collapsed" : "ml-sidebar"}
+        `}
       >
-        <div className="p-4 sm:p-6 lg:p-8">
+        <Header title="Dashboard" subtitle="Overview of your sales activity" />
+
+        <main className="p-4 sm:p-6 lg:p-8">
           <Outlet />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };

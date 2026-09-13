@@ -100,6 +100,14 @@
   --shadow-lg: var(--token-shadow-lg);
   --shadow-panel: var(--token-shadow-panel);
   --shadow-accent: var(--token-shadow-accent);
+
+  --sidebar-width: var(--token-sidebar-width);
+  --sidebar-collapsed-width: var(--token-sidebar-collapsed-width);
+  --sidebar-mobile-width: var(--token-sidebar-mobile-width);
+
+  --spacing-sidebar: 250px;
+  --spacing-sidebar-collapsed: 76px;
+  --spacing-sidebar-mobile: 280px;
 }
 
 ::-webkit-scrollbar {

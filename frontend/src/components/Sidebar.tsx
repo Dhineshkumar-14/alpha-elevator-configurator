@@ -21,7 +21,10 @@ import { useNavigate } from "react-router-dom";
 
 interface NavItem {
   label: string;
-  icon: React.ComponentType<{ size?: number; strokeWidth?: number }>;
+  icon: React.ComponentType<{
+    size?: number;
+    strokeWidth?: number;
+  }>;
   path: string;
 }
 
@@ -101,19 +104,32 @@ const navigation: NavSection[] = [
 interface SidebarProps {
   activePath?: string;
   onNavigate?: (path: string) => void;
+  collapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
 }
 
-const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
+const Sidebar = ({
+  activePath = "/dashboard",
+  onNavigate,
+  collapsed,
+  onCollapsedChange,
+}: SidebarProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+
   const navigate = useNavigate();
-  const handleNavigate = (path: string) => {
-    onNavigate?.(path);
-    setMobileOpen(false);
-  };
 
   const [logout] = useLogoutMutation();
   const logoutUser = useAuthStore((state) => state.logout);
+
+  const handleNavigate = (path: string) => {
+    onNavigate?.(path);
+
+    if (!onNavigate) {
+      navigate(path);
+    }
+
+    setMobileOpen(false);
+  };
 
   const handleLogout = async () => {
     try {
@@ -121,35 +137,57 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
 
       logoutUser();
 
-      navigate("/login", { replace: true });
+      navigate("/login", {
+        replace: true,
+      });
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
+
   const sidebarContent = (
     <div className="flex h-full flex-col">
-      {/* Logo */}
+      {/* ================================
+          LOGO
+      ================================= */}
+
       <div
-        className={`flex h-24 shrink-0 items-center border-b border-border ${
-          collapsed ? "justify-center px-3" : "px-6"
-        }`}
+        className={`
+          flex h-24 shrink-0 items-center
+          border-b border-border
+          transition-all duration-300
+          ${collapsed ? "justify-center px-3" : "px-6"}
+        `}
       >
         <img
           src="https://alphaelevators.in/new/logo.avif"
           alt="Alpha Elevators"
-          className={`object-contain ${
-            collapsed ? "h-10 w-10 object-cover object-left" : "h-12 w-auto"
-          }`}
+          className={`
+            object-contain
+            transition-all duration-300
+            ${collapsed ? "h-10 w-10 object-cover object-left" : "h-12 w-auto"}
+          `}
         />
       </div>
 
-      {/* Navigation */}
+      {/* ================================
+          NAVIGATION
+      ================================= */}
+
       <nav className="sidebar-scroll flex-1 overflow-y-auto px-3 py-5">
         <div className="space-y-6">
           {navigation.map((section) => (
             <div key={section.title}>
               {!collapsed && (
-                <p className="mb-2 px-3 text-[10px] font-semibold tracking-[0.18em] text-text-muted">
+                <p
+                  className="
+                    mb-2 px-3
+                    text-[10px]
+                    font-semibold
+                    tracking-[0.18em]
+                    text-text-muted
+                  "
+                >
                   {section.title}
                 </p>
               )}
@@ -166,8 +204,10 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
                       onClick={() => handleNavigate(item.path)}
                       title={collapsed ? item.label : undefined}
                       className={`
-                        group relative flex w-full items-center gap-3
-                        rounded-xl px-3 py-3
+                        group relative flex w-full
+                        items-center gap-3
+                        rounded-xl
+                        px-3 py-3
                         text-left text-sm
                         transition-all duration-200
                         ${collapsed ? "justify-center" : "justify-start"}
@@ -178,8 +218,17 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
                         }
                       `}
                     >
+                      {/* Active indicator */}
+
                       {isActive && (
-                        <span className="absolute left-0 h-6 w-0.5 rounded-full bg-primary" />
+                        <span
+                          className="
+                            absolute left-0
+                            h-6 w-0.5
+                            rounded-full
+                            bg-primary
+                          "
+                        />
                       )}
 
                       <Icon size={19} strokeWidth={isActive ? 2 : 1.8} />
@@ -196,52 +245,80 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
         </div>
       </nav>
 
-      {/* Bottom Navigation */}
-      <div className="shrink-0 border-t border-border p-3">
+      {/* ================================
+          BOTTOM NAVIGATION
+      ================================= */}
+
+      <div
+        className="
+          shrink-0
+          border-t border-border
+          p-3
+        "
+      >
+        {/* Settings */}
+
         <button
           type="button"
           onClick={() => handleNavigate("/settings")}
           title={collapsed ? "Settings" : undefined}
           className={`
-            flex w-full items-center gap-3 rounded-xl
-            px-3 py-3 text-sm
+            flex w-full
+            items-center gap-3
+            rounded-xl
+            px-3 py-3
+            text-sm
             text-text-secondary
             transition-colors
-            hover:bg-surface-hover hover:text-text-primary
+            hover:bg-surface-hover
+            hover:text-text-primary
             ${collapsed ? "justify-center" : ""}
           `}
         >
           <Settings size={19} strokeWidth={1.8} />
+
           {!collapsed && <span>Settings</span>}
         </button>
+
+        {/* Logout */}
 
         <button
           type="button"
           onClick={handleLogout}
           title={collapsed ? "Logout" : undefined}
           className={`
-            mt-1 flex w-full items-center gap-3 rounded-xl
-            px-3 py-3 text-sm
+            mt-1 flex w-full
+            items-center gap-3
+            rounded-xl
+            px-3 py-3
+            text-sm
             text-text-secondary
             transition-colors
-            hover:bg-error/10 hover:text-error
+            hover:bg-error/10
+            hover:text-error
             ${collapsed ? "justify-center" : ""}
           `}
         >
           <LogOut size={19} strokeWidth={1.8} />
+
           {!collapsed && <span>Logout</span>}
         </button>
 
-        {/* Desktop collapse */}
+        {/* Collapse / Expand */}
+
         <button
           type="button"
-          onClick={() => setCollapsed((value) => !value)}
+          onClick={() => onCollapsedChange(!collapsed)}
           className="
-            mt-3 hidden w-full items-center justify-center
-            rounded-lg border border-border
-            py-2 text-text-muted
+            mt-3 hidden w-full
+            items-center justify-center
+            rounded-lg
+            border border-border
+            py-2
+            text-text-muted
             transition
-            hover:bg-surface-hover hover:text-text-primary
+            hover:bg-surface-hover
+            hover:text-text-primary
             lg:flex
           "
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -254,13 +331,18 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
 
   return (
     <>
-      {/* Mobile Header */}
+      {/* ================================
+          MOBILE HEADER
+      ================================= */}
+
       <header
         className="
           fixed inset-x-0 top-0 z-40
           flex h-16 items-center
           border-b border-border
-          bg-background/95 px-4 backdrop-blur
+          bg-background/95
+          px-4
+          backdrop-blur
           lg:hidden
         "
       >
@@ -268,8 +350,10 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
           type="button"
           onClick={() => setMobileOpen(true)}
           className="
-            rounded-lg p-2 text-text-secondary
-            transition hover:bg-surface-hover
+            rounded-lg p-2
+            text-text-secondary
+            transition
+            hover:bg-surface-hover
             hover:text-text-primary
           "
           aria-label="Open navigation"
@@ -280,11 +364,17 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
         <img
           src="https://alphaelevators.in/new/logo.avif"
           alt="Alpha Elevators"
-          className="ml-3 h-9 w-auto object-contain"
+          className="
+            ml-3 h-9 w-auto
+            object-contain
+          "
         />
       </header>
 
-      {/* Mobile Backdrop */}
+      {/* ================================
+          MOBILE BACKDROP
+      ================================= */}
+
       {mobileOpen && (
         <button
           type="button"
@@ -298,10 +388,16 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
         />
       )}
 
-      {/* Mobile Sidebar */}
+      {/* ================================
+          MOBILE SIDEBAR
+      ================================= */}
+
       <aside
+        style={{
+          width: "var(--sidebar-mobile-width)",
+        }}
         className={`
-          fixed inset-y-0 left-0 z-50 w-[280px]
+          fixed inset-y-0 left-0 z-50
           border-r border-border
           bg-background
           shadow-2xl
@@ -310,6 +406,8 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
           ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
+        {/* Mobile Close */}
+
         <button
           type="button"
           onClick={() => setMobileOpen(false)}
@@ -318,7 +416,8 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
             rounded-lg p-2
             text-text-muted
             transition
-            hover:bg-surface-hover hover:text-text-primary
+            hover:bg-surface-hover
+            hover:text-text-primary
           "
           aria-label="Close navigation"
         >
@@ -328,16 +427,12 @@ const Sidebar = ({ activePath = "/dashboard", onNavigate }: SidebarProps) => {
         {sidebarContent}
       </aside>
 
-      {/* Desktop Sidebar */}
+      {/* ================================
+          DESKTOP SIDEBAR
+      ================================= */}
+
       <aside
-        className={`
-          fixed inset-y-0 left-0 z-30 hidden
-          border-r border-border
-          bg-background
-          transition-[width] duration-300
-          lg:block
-          ${collapsed ? "w-[76px]" : "w-[250px]"}
-        `}
+        className={` fixed inset-y-0 left-0 z-30 hidden border-r border-border bg-background transition-[width] duration-300 ease-in-out lg:block ${collapsed ? "w-sidebar-collapsed-width" : "w-sidebar-width"} `}
       >
         {sidebarContent}
       </aside>

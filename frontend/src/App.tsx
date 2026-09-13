@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardLayout from "./layouts/DashboardLayout";
+import LeadsPage from "./pages/LeadsPage";
 
 function App() {
   return (
@@ -26,9 +27,8 @@ function App() {
 
             {/* Add future pages here */}
 
-            {/* 
             <Route path="/leads" element={<LeadsPage />} />
-            <Route path="/customers" element={<CustomersPage />} />
+            {/* <Route path="/customers" element={<CustomersPage />} />
             <Route path="/quotations" element={<QuotationsPage />} />
             <Route path="/site-visits" element={<SiteVisitsPage />} />
             <Route path="/orders" element={<OrdersPage />} />
