@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import { routeConfig } from "../config/routeConfig";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -12,6 +14,8 @@ const DashboardLayout = () => {
   useEffect(() => {
     setCollapsed(location.pathname === "/configurator");
   }, [location.pathname]);
+
+  const currentRoute = routeConfig[location.pathname];
 
   return (
     <div className="min-h-screen bg-background text-text-primary">
@@ -31,9 +35,12 @@ const DashboardLayout = () => {
           ${collapsed ? "ml-sidebar-collapsed" : "ml-sidebar"}
         `}
       >
-        <Header title="Dashboard" subtitle="Overview of your sales activity" />
+        <Header
+          title={currentRoute?.title ?? "Dashboard"}
+          subtitle={currentRoute?.subtitle}
+        />
 
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main className="p-2">
           <Outlet />
         </main>
       </div>
