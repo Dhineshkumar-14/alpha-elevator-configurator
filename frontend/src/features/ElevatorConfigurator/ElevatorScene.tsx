@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 
 import type { ElevatorConfig } from "./elevatorConfig";
 import Elevator from "./elevatorScene/Elevator";
+import Shaft from "./elevatorScene/Shaft";
 
 interface ElevatorSceneProps {
   config: ElevatorConfig;
@@ -15,6 +16,10 @@ const ElevatorScene = ({ config }: ElevatorSceneProps) => {
 
   // Move camera farther away as floors increase
   const cameraDistance = Math.max(8, elevatorHeight * 1.5);
+  const SCALE = 0.001;
+
+  const width = config.dimensions.width * SCALE;
+  const depth = config.dimensions.depth * SCALE;
 
   return (
     <Canvas
@@ -32,7 +37,14 @@ const ElevatorScene = ({ config }: ElevatorSceneProps) => {
       <directionalLight position={[5, 8, 5]} intensity={2} castShadow />
 
       <pointLight position={[0, 5, 0]} intensity={1.5} />
+      <Shaft
+        floors={config.floors}
+        width={width}
+        depth={depth}
+        floorHeight={2.6}
+      />
 
+      <Elevator config={config} />
       {/* Elevator */}
       <Elevator config={config} />
 

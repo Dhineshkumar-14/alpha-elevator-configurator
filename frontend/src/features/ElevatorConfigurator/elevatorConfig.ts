@@ -53,7 +53,7 @@ export interface ElevatorConfig {
 
 export const defaultElevatorConfig: ElevatorConfig = {
   // Ground + 2 upper floors
-  floors: 1,
+  floors: 4,
 
   // Cabin dimensions in mm
   dimensions: {
