@@ -10,6 +10,17 @@ export type DoorPanelType = "glass" | "sheet";
 
 export type DoorPosition = "front" | "right" | "left" | "back";
 
+export type WallPanelType = "glass" | "sheet";
+
+export interface FloorWallConfiguration {
+  floor: number;
+  walls: {
+    front: WallPanelType;
+    left: WallPanelType;
+    right: WallPanelType;
+  };
+}
+
 export interface FloorConfiguration {
   floor: number;
   doorPositions: DoorPosition[];
@@ -29,6 +40,7 @@ export interface ElevatorConfig {
   wall: {
     type: WallType;
     color: string;
+    design: string;
   };
 
   door: {
@@ -39,6 +51,8 @@ export interface ElevatorConfig {
   };
 
   floorConfigurations: FloorConfiguration[];
+
+  floorWallConfigurations: FloorWallConfiguration[];
 
   flooring: {
     type: "theme" | "color";
@@ -52,26 +66,22 @@ export interface ElevatorConfig {
 }
 
 export const defaultElevatorConfig: ElevatorConfig = {
-  // Ground + 2 upper floors
-  floors: 4,
+  floors: 6,
 
-  // Cabin dimensions in mm
   dimensions: {
     width: 900,
     depth: 1040,
   },
 
-  // Glass walls
   glassWalls: "standard",
   glassFinish: "tinted",
 
-  // Interior walls
   wall: {
     type: "full-design",
     color: "#C8B08A",
+    design: "evelina-classic",
   },
 
-  // Doors
   door: {
     type: "large-glass",
     panelType: "glass",
@@ -79,29 +89,73 @@ export const defaultElevatorConfig: ElevatorConfig = {
     color: "#2F3033",
   },
 
-  // Door position for each floor
+  // Door positions
   floorConfigurations: [
+    { floor: 0, doorPositions: ["front"] },
+    { floor: 1, doorPositions: ["front"] },
+    { floor: 2, doorPositions: ["front"] },
+    { floor: 3, doorPositions: ["front"] },
+    { floor: 4, doorPositions: ["front"] },
+    { floor: 5, doorPositions: ["front"] },
+  ],
+
+  // Construction wall configuration
+  floorWallConfigurations: [
     {
       floor: 0,
-      doorPositions: ["front", "right"],
+      walls: {
+        front: "glass",
+        left: "glass",
+        right: "glass",
+      },
     },
     {
       floor: 1,
-      doorPositions: ["front"],
+      walls: {
+        front: "glass",
+        left: "glass",
+        right: "glass",
+      },
     },
     {
       floor: 2,
-      doorPositions: ["left", "right"],
+      walls: {
+        front: "glass",
+        left: "glass",
+        right: "glass",
+      },
+    },
+    {
+      floor: 3,
+      walls: {
+        front: "glass",
+        left: "glass",
+        right: "glass",
+      },
+    },
+    {
+      floor: 4,
+      walls: {
+        front: "glass",
+        left: "glass",
+        right: "glass",
+      },
+    },
+    {
+      floor: 5,
+      walls: {
+        front: "glass",
+        left: "glass",
+        right: "glass",
+      },
     },
   ],
 
-  // Premium flooring
   flooring: {
     type: "theme",
-    value: "red",
+    value: "aged-oak",
   },
 
-  // Ceiling
   ceiling: {
     height: 2400,
     thickness: 100,

@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import { Check } from "lucide-react";
-
 interface Model {
   id: string;
   name: string;
@@ -9,212 +7,90 @@ interface Model {
   capacity: string;
   floors: string;
 }
-
 const models: Model[] = [
   {
     id: "aura",
     name: "AURA",
-    description: "Elegant compact lift for intimate spaces",
+    description: "Compact and elegant for modern homes.",
     dimensions: "580 × 805 mm",
     capacity: "250 kg",
-    floors: "Up to 4 floors",
+    floors: "4 floors",
   },
   {
     id: "grande",
     name: "GRANDE",
-    description: "Versatile standard lift for modern homes",
+    description: "Versatile lift designed for everyday comfort.",
     dimensions: "880 × 805 mm",
     capacity: "320 kg",
-    floors: "Up to 5 floors",
+    floors: "5 floors",
   },
   {
     id: "horizon",
     name: "HORIZON",
-    description: "Spacious premium lift with panoramic views",
+    description: "Spacious cabin with a panoramic experience.",
     dimensions: "1000 × 1000 mm",
     capacity: "400 kg",
-    floors: "Up to 6 floors",
+    floors: "6 floors",
   },
 ];
-
 interface ModelSelectionProps {
-  value?: string;
-  onChange?: (model: Model) => void;
+  value: string;
+  onChange: (model: Model) => void;
 }
-
-const ModelSelection = ({ value = "aura", onChange }: ModelSelectionProps) => {
-  const [selectedModel, setSelectedModel] = useState(value);
-
-  const handleSelect = (model: Model) => {
-    setSelectedModel(model.id);
-    onChange?.(model);
-  };
-
+const ModelSelection = ({ value, onChange }: ModelSelectionProps) => {
   return (
     <section className="w-full max-w-2xl">
-      {/* Heading */}
-      <div className="mb-7">
-        <h2
-          className="
-            text-2xl
-            font-normal
-            tracking-tight
-            text-[var(--color-text-primary)]
-            sm:text-3xl
-          "
-        >
-          Choose Your Model
+      {/* Header */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-medium tracking-tight text-[var(--color-text-primary)]">
+          Choose a model
         </h2>
-
-        <p
-          className="
-            mt-2
-            text-sm
-            text-[var(--color-text-secondary)]
-          "
-        >
-          Select the elevator that defines your home.
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+          Select a model to start customizing your elevator.
         </p>
       </div>
-
-      {/* Models */}
+      {/* Model List */}
       <div className="space-y-3">
         {models.map((model) => {
-          const isSelected = selectedModel === model.id;
-
+          const selected = value === model.id;
           return (
             <button
               key={model.id}
               type="button"
-              onClick={() => handleSelect(model)}
-              className={`
-                group
-                relative
-                w-full
-                rounded-lg
-                border
-                p-5
-                text-left
-                transition-all
-                duration-300
-                sm:p-6
-
-                ${
-                  isSelected
-                    ? `
-                      border-[var(--color-primary)]
-                      bg-[var(--color-primary)]/[0.06]
-                    `
-                    : `
-                      border-[var(--color-border)]
-                      bg-transparent
-                      hover:border-[var(--color-primary)]/[0.45]
-                      hover:bg-[var(--color-card)]
-                    `
-                }
-              `}
+              aria-pressed={selected}
+              onClick={() => onChange(model)}
+              className={` group relative flex w-full items-center gap-4 rounded-xl border p-4 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/40 ${selected ? ` border-[var(--color-primary)] bg-[var(--color-primary)]/[0.05] shadow-sm ` : ` border-[var(--color-border)] bg-[var(--color-card)] hover:border-[var(--color-primary)]/40 hover:bg-[var(--color-primary)]/[0.02] `} `}
             >
-              {/* Selected check */}
-              {isSelected && (
-                <Check
-                  size={19}
-                  strokeWidth={1.5}
-                  className="
-                    absolute
-                    right-4
-                    top-5
-                    text-[var(--color-primary)]
-                  "
-                />
-              )}
-
-              <div className="flex gap-4 sm:gap-5">
-                {/* Elevator Icon / Preview */}
-                <div
-                  className={`
-                    flex
-                    h-[88px]
-                    w-[66px]
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-md
-                    transition-colors
-
-                    ${
-                      isSelected
-                        ? "bg-[var(--color-primary)]/[0.12]"
-                        : "bg-[var(--color-card)]"
-                    }
-                  `}
-                >
-                  <ElevatorIcon selected={isSelected} />
-                </div>
-
-                {/* Content */}
-                <div className="min-w-0 flex-1">
-                  {/* Model name */}
+              {/* Preview */}
+              <div
+                className={` flex h-20 w-16 shrink-0 items-center justify-center rounded-lg transition-colors ${selected ? "bg-[var(--color-primary)]/[0.10]" : "bg-[var(--color-bg)]"} `}
+              >
+                <ElevatorIcon selected={selected} />
+              </div>
+              {/* Content */}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
                   <h3
-                    className="
-                      font-serif
-                      text-xl
-                      font-normal
-                      tracking-tight
-                      text-[var(--color-text-primary)]
-                    "
+                    className={` text-base font-medium ${selected ? "text-[var(--color-primary)]" : "text-[var(--color-text-primary)]"} `}
                   >
                     {model.name}
                   </h3>
-
-                  {/* Description */}
-                  <p
-                    className="
-                      mt-1
-                      max-w-md
-                      text-sm
-                      leading-5
-                      text-[var(--color-text-secondary)]
-                    "
-                  >
-                    {model.description}
-                  </p>
-
-                  {/* Specs */}
-                  <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span
-                      className="
-                        rounded
-                        bg-[var(--color-primary)]/[0.12]
-                        px-2
-                        py-1
-                        text-[11px]
-                        font-medium
-                        text-[var(--color-primary)]
-                      "
-                    >
-                      {model.dimensions}
+                  {selected && (
+                    <span className=" flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-primary)] text-white ">
+                      <Check size={12} strokeWidth={2.5} />
                     </span>
-
-                    <span
-                      className="
-                        text-[11px]
-                        text-[var(--color-text-secondary)]
-                      "
-                    >
-                      {model.capacity}
-                    </span>
-                  </div>
-
-                  {/* Floors */}
-                  <p
-                    className="
-                      mt-3
-                      text-[11px]
-                      text-[var(--color-text-secondary)]
-                    "
-                  >
-                    {model.floors}
-                  </p>
+                  )}
+                </div>
+                <p className="mt-1 text-xs leading-5 text-[var(--color-text-secondary)]">
+                  {model.description}
+                </p>
+                {/* Specs */}
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-[var(--color-text-secondary)]">
+                  <span>{model.dimensions}</span>
+                  <span className="h-3 w-px bg-[var(--color-border)]" />
+                  <span>{model.capacity}</span>
+                  <span className="h-3 w-px bg-[var(--color-border)]" />
+                  <span>{model.floors}</span>
                 </div>
               </div>
             </button>
@@ -224,83 +100,27 @@ const ModelSelection = ({ value = "aura", onChange }: ModelSelectionProps) => {
     </section>
   );
 };
-
-/* ---------------------------------------------
-   ELEVATOR ICON
---------------------------------------------- */
-
-interface ElevatorIconProps {
+/* --------------------------------------------- ELEVATOR PREVIEW --------------------------------------------- */ interface ElevatorIconProps {
   selected: boolean;
 }
-
 const ElevatorIcon = ({ selected }: ElevatorIconProps) => {
   return (
-    <div className="relative h-[62px] w-[40px]">
-      {/* Outer */}
+    <div
+      className={` relative h-14 w-9 transition-transform duration-200 group-hover:scale-[1.03] `}
+    >
+      {/* Cabin */}
       <div
-        className={`
-          absolute
-          inset-0
-          rounded-[2px]
-          border
-          ${
-            selected
-              ? "border-[var(--color-primary)]"
-              : "border-[var(--color-border)]"
-          }
-        `}
+        className={` absolute inset-0 rounded-[3px] border ${selected ? "border-[var(--color-primary)]" : "border-[var(--color-border)]"} `}
       />
-
-      {/* Inner door */}
+      {/* Door */}
       <div
-        className={`
-          absolute
-          bottom-[5px]
-          left-[6px]
-          right-[6px]
-          top-[6px]
-          rounded-[1px]
-          border
-          ${
-            selected
-              ? "border-[var(--color-primary)]/60"
-              : "border-[var(--color-border)]/60"
-          }
-        `}
+        className={` absolute bottom-1 left-1 right-1 top-1 rounded-[2px] border ${selected ? "border-[var(--color-primary)]/60" : "border-[var(--color-border)]/60"} `}
       />
-
-      {/* Door split */}
+      {/* Door Split */}
       <div
-        className={`
-          absolute
-          bottom-[6px]
-          left-1/2
-          top-[7px]
-          w-px
-          -translate-x-1/2
-          ${
-            selected
-              ? "bg-[var(--color-primary)]/40"
-              : "bg-[var(--color-border)]/40"
-          }
-        `}
-      />
-
-      {/* Handle */}
-      <div
-        className={`
-          absolute
-          left-[20px]
-          top-1/2
-          h-[3px]
-          w-[10px]
-          -translate-y-1/2
-          rounded-full
-          ${selected ? "bg-[var(--color-primary)]" : "bg-[var(--color-border)]"}
-        `}
+        className={` absolute bottom-1 left-1/2 top-1 w-px -translate-x-1/2 ${selected ? "bg-[var(--color-primary)]/50" : "bg-[var(--color-border)]/50"} `}
       />
     </div>
   );
 };
-
 export default ModelSelection;

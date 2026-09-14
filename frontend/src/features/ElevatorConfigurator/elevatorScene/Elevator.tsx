@@ -1,4 +1,5 @@
 import type { ElevatorConfig } from "../elevatorConfig";
+import { flooringOptions } from "../InteriorSelection";
 import Ceiling from "./Ceiling";
 import Door from "./Door";
 import Floor from "./Floor";
@@ -21,14 +22,16 @@ const Elevator = ({ config }: ElevatorProps) => {
 
   const floorTop = floorThickness / 2;
   const wallCenterY = floorTop + height / 2;
-
+  const selectedFlooring = flooringOptions.find(
+    (item) => item.id === config.flooring.value,
+  );
   return (
     <group>
       {/* Floor */}
       <Floor
         position={[0, 0, 0]}
         size={[width, floorThickness, depth]}
-        color={config.flooring.value}
+        texture={selectedFlooring?.image}
       />
 
       {/* Back Wall */}
