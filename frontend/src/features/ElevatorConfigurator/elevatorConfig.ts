@@ -58,7 +58,7 @@ export const defaultElevatorConfig: ElevatorConfig = {
   // Cabin dimensions in mm
   dimensions: {
     width: 900,
-    depth: 1280,
+    depth: 1040,
   },
 
   // Glass walls
