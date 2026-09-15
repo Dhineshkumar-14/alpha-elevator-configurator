@@ -69,7 +69,7 @@ export const flooringOptions = [
   },
 ];
 
-const wallOptions = [
+export const wallOptions = [
   {
     id: "diagonal",
     name: "Diagonal",

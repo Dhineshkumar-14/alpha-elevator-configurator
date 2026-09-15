@@ -32,10 +32,6 @@ const steps: {
     id: "exterior",
     label: "EXTERIOR",
   },
-  {
-    id: "architect",
-    label: "ARCHITECT",
-  },
 ];
 
 const DesignerNavigation = ({
