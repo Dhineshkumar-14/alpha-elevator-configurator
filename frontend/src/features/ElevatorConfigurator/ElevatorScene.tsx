@@ -10,7 +10,7 @@ interface ElevatorSceneProps {
 }
 
 const FLOOR_HEIGHT = 2.6;
-const SCALE = 0.001;
+// const SCALE = 0.001;
 
 const ElevatorScene = ({ config }: ElevatorSceneProps) => {
   const totalHeight = config.floors * FLOOR_HEIGHT;
