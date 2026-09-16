@@ -8,6 +8,21 @@ import Door from "./Door";
 
 interface ElevatorProps {
   config: ElevatorConfig;
+
+  /**
+   * Floor number.
+   *
+   * 0 = ground floor
+   * 1 = first floor
+   * 2 = second floor
+   * etc.
+   */
+  floor?: number;
+
+  /**
+   * Position of this elevator/floor in the 3D scene.
+   */
+  position?: [number, number, number];
 }
 
 /**
@@ -20,7 +35,11 @@ const FLOOR_HEIGHT = 2600;
  */
 const SCALE = 0.001;
 
-const Elevator = ({ config }: ElevatorProps) => {
+const Elevator = ({
+  config,
+  floor = 0,
+  position = [0, 0, 0],
+}: ElevatorProps) => {
   /*
    * ==========================================
    * CABIN DIMENSIONS
@@ -62,39 +81,37 @@ const Elevator = ({ config }: ElevatorProps) => {
 
   /*
    * ==========================================
-   * DOOR CONFIGURATION
+   * FLOOR CONFIGURATION
    * ==========================================
    *
-   * Floor 0 represents the current cabin.
+   * IMPORTANT:
    *
-   * Example:
-   * ["front"]
-   * ["right"]
-   * ["front", "right"]
-   * ["front", "back"]
+   * Previously this was hardcoded to:
+   *
+   * floor.floor === 0
+   *
+   * Now it uses the actual floor prop.
    */
 
   const floorConfig = config.floorConfigurations?.find(
-    (floor) => floor.floor === 0,
+    (item) => item.floor === floor,
   );
+console.log(config);
 
   const doorPositions = floorConfig?.doorPositions ?? ["front"];
 
   const hasFrontDoor = doorPositions.includes("front");
+
   const hasRightDoor = doorPositions.includes("right");
+
   const hasLeftDoor = doorPositions.includes("left");
+
   const hasBackDoor = doorPositions.includes("back");
 
   /*
    * ==========================================
    * CABIN PANEL DIMENSIONS
    * ==========================================
-   *
-   * Left/right panels:
-   *
-   * X = wall thickness
-   * Y = height
-   * Z = cabin depth
    */
 
   const sidePanelSize: [number, number, number] = [
@@ -132,7 +149,7 @@ const Elevator = ({ config }: ElevatorProps) => {
    */
 
   return (
-    <group>
+    <group position={position}>
       {/* =====================================
           FLOOR
       ===================================== */}
@@ -145,7 +162,6 @@ const Elevator = ({ config }: ElevatorProps) => {
 
       {/* =====================================
           LEFT CABIN PANEL
-          Only render when there is no door.
       ===================================== */}
 
       {!hasLeftDoor && (
@@ -161,7 +177,6 @@ const Elevator = ({ config }: ElevatorProps) => {
 
       {/* =====================================
           RIGHT CABIN PANEL
-          Only render when there is no door.
       ===================================== */}
 
       {!hasRightDoor && (
@@ -176,7 +191,6 @@ const Elevator = ({ config }: ElevatorProps) => {
 
       {/* =====================================
           BACK CABIN PANEL
-          Only render when there is no back door.
       ===================================== */}
 
       {!hasBackDoor && (
@@ -256,7 +270,7 @@ const Elevator = ({ config }: ElevatorProps) => {
           type={doorType}
           panelType={doorPanelType}
           color={doorColor}
-          frameColor={"#333333"}
+          frameColor="#333333"
           glassColor={doorColor}
           glassFinish={config.glassFinish}
           showHandles

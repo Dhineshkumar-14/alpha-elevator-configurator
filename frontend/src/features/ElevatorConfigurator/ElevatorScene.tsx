@@ -4,7 +4,6 @@ import { Canvas } from "@react-three/fiber";
 import type { ElevatorConfig } from "./elevatorConfig";
 
 import Elevator from "./elevatorScene/Elevator";
-import Shaft from "./elevatorScene/Shaft";
 
 interface ElevatorSceneProps {
   config: ElevatorConfig;
@@ -14,30 +13,12 @@ const FLOOR_HEIGHT = 2.6;
 const SCALE = 0.001;
 
 const ElevatorScene = ({ config }: ElevatorSceneProps) => {
-  /*
-   * ==========================================
-   * SHAFT / BUILDING DIMENSIONS
-   * ==========================================
-   */
-
   const width = config.dimensions.width * SCALE;
   const depth = config.dimensions.depth * SCALE;
 
   const totalHeight = config.floors * FLOOR_HEIGHT;
 
-  /*
-   * ==========================================
-   * CAMERA
-   * ==========================================
-   */
-
   const cameraDistance = Math.max(8, totalHeight * 1.5);
-
-  /*
-   * ==========================================
-   * RENDER
-   * ==========================================
-   */
 
   return (
     <Canvas
@@ -47,15 +28,11 @@ const ElevatorScene = ({ config }: ElevatorSceneProps) => {
         fov: 45,
       }}
     >
-      {/* =====================================
-          SCENE BACKGROUND
-      ===================================== */}
-
       <color attach="background" args={["#101012"]} />
 
-      {/* =====================================
+      {/* =========================
           LIGHTING
-      ===================================== */}
+      ========================= */}
 
       <ambientLight intensity={1.2} />
 
@@ -63,28 +40,24 @@ const ElevatorScene = ({ config }: ElevatorSceneProps) => {
 
       <pointLight position={[0, 5, 0]} intensity={1.5} />
 
-      {/* =====================================
-          ELEVATOR SHAFT
-          Shaft gets the complete config.
-      ===================================== */}
+      {/* =========================
+          ELEVATOR ON EVERY FLOOR
+      ========================= */}
 
-      <Shaft
-        config={config}
-        width={width}
-        depth={depth}
-        floorHeight={FLOOR_HEIGHT}
-      />
+      {Array.from({
+        length: config.floors,
+      }).map((_, index) => (
+        <Elevator
+          key={index}
+          floor={index}
+          config={config}
+          position={[0, index * FLOOR_HEIGHT, 0]}
+        />
+      ))}
 
-      {/* =====================================
-          ELEVATOR
-          Interior design comes from config.
-      ===================================== */}
-
-      <Elevator config={config} />
-
-      {/* =====================================
-          CAMERA CONTROLS
-      ===================================== */}
+      {/* =========================
+          CAMERA
+      ========================= */}
 
       <OrbitControls
         enablePan={false}

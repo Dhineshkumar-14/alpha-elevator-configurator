@@ -41,7 +41,9 @@ const ElevatorConfiguratorPage = () => {
           )}
 
           {activeStep === "construction" && (
-            <ConstructionSelection config={config} onChange={setConfig} />
+            <div className="h-[calc(100vh-80px)] min-h-0 overflow-hidden">
+              <ConstructionSelection config={config} onChange={setConfig} />
+            </div>
           )}
 
           {activeStep === "interior" && (

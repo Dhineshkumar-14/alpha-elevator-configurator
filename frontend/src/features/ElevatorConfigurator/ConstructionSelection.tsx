@@ -1,7 +1,14 @@
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 
-import type { ElevatorConfig, WallPanelType } from "./elevatorConfig";
+import type {
+  DoorPosition,
+  ElevatorConfig,
+  FloorConfiguration,
+  FloorWallConfiguration,
+  WallPanelType,
+} from "./elevatorConfig";
+
 import { DimensionInput } from "./DimensionInput";
 import { WallOption } from "./WallOption";
 import { AreaOption } from "./AreaOption";
@@ -23,12 +30,20 @@ const ConstructionSelection = ({
 
   const [selectedFloor, setSelectedFloor] = useState(0);
 
+  /* ============================================================
+     GENERAL CONFIG UPDATE
+  ============================================================ */
+
   const updateConfig = (updates: Partial<ElevatorConfig>) => {
     onChange({
       ...config,
       ...updates,
     });
   };
+
+  /* ============================================================
+     DIMENSION UPDATE
+  ============================================================ */
 
   const updateDimensions = (updates: Partial<ElevatorConfig["dimensions"]>) => {
     onChange({
@@ -40,57 +55,151 @@ const ConstructionSelection = ({
     });
   };
 
+  /* ============================================================
+     DEFAULT FLOOR CONFIGURATION
+  ============================================================ */
+
+  const createDefaultFloorConfiguration = (
+    floor: number,
+  ): FloorConfiguration => ({
+    floor,
+    doorPositions: ["front"] as DoorPosition[],
+  });
+
+  /* ============================================================
+     DEFAULT FLOOR WALL CONFIGURATION
+  ============================================================ */
+
+  const createDefaultFloorWallConfiguration = (
+    floor: number,
+  ): FloorWallConfiguration => ({
+    floor,
+    walls: {
+      front: "glass",
+      left: "glass",
+      right: "glass",
+    },
+  });
+
+  /* ============================================================
+     SYNC FLOOR CONFIGURATIONS
+
+     If floors = 1:
+       floorConfigurations       = [0]
+       floorWallConfigurations   = [0]
+
+     If floors = 2:
+       floorConfigurations       = [0, 1]
+       floorWallConfigurations   = [0, 1]
+
+     If floors = 3:
+       floorConfigurations       = [0, 1, 2]
+       floorWallConfigurations   = [0, 1, 2]
+
+     Existing configurations are preserved.
+     Extra configurations are removed.
+  ============================================================ */
+
+  const syncFloorConfigurations = (
+    floorCount: number,
+  ): {
+    floorConfigurations: FloorConfiguration[];
+    floorWallConfigurations: FloorWallConfiguration[];
+  } => {
+    const existingDoorConfigurations = config.floorConfigurations ?? [];
+
+    const existingWallConfigurations = config.floorWallConfigurations ?? [];
+
+    const floorConfigurations: FloorConfiguration[] = Array.from(
+      { length: floorCount },
+      (_, floor) => {
+        const existing = existingDoorConfigurations.find(
+          (item) => item.floor === floor,
+        );
+
+        return existing ?? createDefaultFloorConfiguration(floor);
+      },
+    );
+
+    const floorWallConfigurations: FloorWallConfiguration[] = Array.from(
+      { length: floorCount },
+      (_, floor) => {
+        const existing = existingWallConfigurations.find(
+          (item) => item.floor === floor,
+        );
+
+        return existing ?? createDefaultFloorWallConfiguration(floor);
+      },
+    );
+
+    return {
+      floorConfigurations,
+      floorWallConfigurations,
+    };
+  };
+
+  /* ============================================================
+     INCREASE FLOORS
+  ============================================================ */
+
   const increaseFloors = () => {
     if (floors >= 6) return;
 
     const newFloorCount = floors + 1;
 
-    const existingConfigurations = config.floorWallConfigurations ?? [];
+    const { floorConfigurations, floorWallConfigurations } =
+      syncFloorConfigurations(newFloorCount);
 
     onChange({
       ...config,
       floors: newFloorCount,
-      floorWallConfigurations: [
-        ...existingConfigurations,
-        {
-          floor: floors,
-          walls: {
-            front: "glass",
-            left: "glass",
-            right: "glass",
-          },
-        },
-      ],
+      floorConfigurations,
+      floorWallConfigurations,
     });
   };
+
+  /* ============================================================
+     DECREASE FLOORS
+  ============================================================ */
 
   const decreaseFloors = () => {
     if (floors <= 1) return;
 
+    const newFloorCount = floors - 1;
+
+    const { floorConfigurations, floorWallConfigurations } =
+      syncFloorConfigurations(newFloorCount);
+
     onChange({
       ...config,
-      floors: floors - 1,
-      floorWallConfigurations: config.floorWallConfigurations.slice(
-        0,
-        floors - 1,
-      ),
+      floors: newFloorCount,
+      floorConfigurations,
+      floorWallConfigurations,
     });
 
-    if (selectedFloor >= floors - 1) {
-      setSelectedFloor(floors - 2);
-    }
+    setSelectedFloor((current) => Math.min(current, newFloorCount - 1));
   };
 
-  const selectedFloorConfig = config.floorWallConfigurations.find(
+  /* ============================================================
+     SELECTED FLOOR WALL CONFIGURATION
+  ============================================================ */
+
+  const selectedFloorConfig = config.floorWallConfigurations?.find(
     (item) => item.floor === selectedFloor,
   );
+
+  /* ============================================================
+     UPDATE WALL
+  ============================================================ */
 
   const updateWall = (
     wall: "front" | "left" | "right",
     value: WallPanelType,
   ) => {
-    const updatedConfigurations = config.floorWallConfigurations.map(
-      (floorConfig) =>
+    const currentConfigurations = config.floorWallConfigurations ?? [];
+
+    const updatedConfigurations: FloorWallConfiguration[] =
+      currentConfigurations.map((floorConfig) =>
         floorConfig.floor === selectedFloor
           ? {
               ...floorConfig,
@@ -100,7 +209,7 @@ const ConstructionSelection = ({
               },
             }
           : floorConfig,
-    );
+      );
 
     onChange({
       ...config,
@@ -108,9 +217,23 @@ const ConstructionSelection = ({
     });
   };
 
+  /* ============================================================
+     RENDER
+  ============================================================ */
+
   return (
-    <section className="w-full max-w-2xl">
-      {/* Header */}
+    <section
+      className="
+    h-full
+    w-full
+    max-w-2xl
+    overflow-y-auto
+    pr-2
+    scrollbar-thin
+  "
+    >
+      {/* HEADER */}
+
       <div className="mb-7">
         <h2 className="text-2xl font-medium tracking-tight text-[var(--color-text-primary)]">
           Construction
@@ -122,7 +245,10 @@ const ConstructionSelection = ({
       </div>
 
       <div className="space-y-6">
-        {/* Floors */}
+        {/* ======================================================
+            FLOORS
+        ====================================================== */}
+
         <div>
           <div className="mb-3">
             <h3 className="text-sm font-medium text-[var(--color-text-primary)]">
@@ -141,12 +267,14 @@ const ConstructionSelection = ({
               </p>
 
               <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
-                Ground + {floors - 1} upper
-                {floors - 1 === 1 ? " floor" : " floors"}
+                Ground + {floors - 1}{" "}
+                {floors - 1 === 1 ? "upper floor" : "upper floors"}
               </p>
             </div>
 
             <div className="flex items-center gap-2">
+              {/* DECREASE */}
+
               <button
                 type="button"
                 onClick={decreaseFloors}
@@ -156,9 +284,13 @@ const ConstructionSelection = ({
                 <Minus size={15} />
               </button>
 
+              {/* COUNT */}
+
               <span className="flex h-9 min-w-10 items-center justify-center rounded-lg bg-[var(--color-primary)]/[0.08] px-3 text-sm font-medium text-[var(--color-primary)]">
                 {floors}
               </span>
+
+              {/* INCREASE */}
 
               <button
                 type="button"
@@ -172,7 +304,10 @@ const ConstructionSelection = ({
           </div>
         </div>
 
-        {/* Pick Floor */}
+        {/* ======================================================
+            PICK FLOOR
+        ====================================================== */}
+
         <div>
           <p className="mb-2 text-xs font-medium text-[var(--color-text-primary)]">
             Pick floor
@@ -188,14 +323,14 @@ const ConstructionSelection = ({
                   type="button"
                   onClick={() => setSelectedFloor(index)}
                   className={`
-                    h-8 border-r border-b border-[var(--color-border)]
-                    text-[11px] transition-colors
-                    ${
-                      selected
-                        ? "bg-[var(--color-primary)] text-white"
-                        : "bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-card)]"
-                    }
-                  `}
+                      h-8 border-r border-b border-[var(--color-border)]
+                      text-[11px] transition-colors
+                      ${
+                        selected
+                          ? "bg-[var(--color-primary)] text-white"
+                          : "bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-card)]"
+                      }
+                    `}
                 >
                   {index === 0 ? "Bottom" : index}
                 </button>
@@ -204,7 +339,10 @@ const ConstructionSelection = ({
           </div>
         </div>
 
-        {/* Construction Tabs */}
+        {/* ======================================================
+            CONSTRUCTION TABS
+        ====================================================== */}
+
         <div>
           <div className="grid grid-cols-2 overflow-hidden rounded border border-[var(--color-border)]">
             <button
@@ -239,7 +377,10 @@ const ConstructionSelection = ({
           </div>
         </div>
 
-        {/* Ceiling */}
+        {/* ======================================================
+            CEILING
+        ====================================================== */}
+
         {activeTab === "ceiling" && (
           <div className="space-y-5">
             <DimensionInput
@@ -274,14 +415,16 @@ const ConstructionSelection = ({
               </span>
 
               <span className="text-xs font-medium text-[var(--color-text-primary)]">
-                {config.ceiling.height + config.ceiling.thickness}
-                mm
+                {config.ceiling.height + config.ceiling.thickness} mm
               </span>
             </div>
           </div>
         )}
 
-        {/* Walls */}
+        {/* ======================================================
+            WALLS
+        ====================================================== */}
+
         {activeTab === "walls" && selectedFloorConfig && (
           <div className="space-y-4">
             <WallOption
@@ -304,7 +447,10 @@ const ConstructionSelection = ({
           </div>
         )}
 
-        {/* Area */}
+        {/* ======================================================
+            AVAILABLE AREA
+        ====================================================== */}
+
         <div>
           <div className="mb-3">
             <h3 className="text-sm font-medium text-[var(--color-text-primary)]">
@@ -355,7 +501,10 @@ const ConstructionSelection = ({
           </div>
         </div>
 
-        {/* Summary */}
+        {/* ======================================================
+            SUMMARY
+        ====================================================== */}
+
         <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4">
           <div className="flex items-center justify-between">
             <span className="text-xs text-[var(--color-text-secondary)]">

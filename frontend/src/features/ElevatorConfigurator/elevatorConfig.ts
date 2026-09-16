@@ -12,8 +12,13 @@ export type DoorPosition = "front" | "right" | "left" | "back";
 
 export type WallPanelType = "glass" | "sheet";
 
+/* ============================================================
+   FLOOR WALL CONFIGURATION
+============================================================ */
+
 export interface FloorWallConfiguration {
   floor: number;
+
   walls: {
     front: WallPanelType;
     left: WallPanelType;
@@ -21,10 +26,19 @@ export interface FloorWallConfiguration {
   };
 }
 
+/* ============================================================
+   FLOOR DOOR CONFIGURATION
+============================================================ */
+
 export interface FloorConfiguration {
   floor: number;
+
   doorPositions: DoorPosition[];
 }
+
+/* ============================================================
+   ELEVATOR CONFIGURATION
+============================================================ */
 
 export interface ElevatorConfig {
   floors: number;
@@ -35,6 +49,7 @@ export interface ElevatorConfig {
   };
 
   glassWalls: GlassWallType;
+
   glassFinish: GlassFinish;
 
   wall: {
@@ -65,8 +80,41 @@ export interface ElevatorConfig {
   };
 }
 
+/* ============================================================
+   DEFAULT FLOOR CONFIG
+============================================================ */
+
+const createDefaultFloorConfiguration = (
+  floor: number,
+): FloorConfiguration => ({
+  floor,
+  doorPositions: ["front"],
+});
+
+/* ============================================================
+   DEFAULT FLOOR WALL CONFIG
+============================================================ */
+
+const createDefaultFloorWallConfiguration = (
+  floor: number,
+): FloorWallConfiguration => ({
+  floor,
+
+  walls: {
+    front: "glass",
+    left: "glass",
+    right: "glass",
+  },
+});
+
+/* ============================================================
+   DEFAULT ELEVATOR CONFIG
+============================================================ */
+
+const DEFAULT_FLOORS = 2;
+
 export const defaultElevatorConfig: ElevatorConfig = {
-  floors: 6,
+  floors: DEFAULT_FLOORS,
 
   dimensions: {
     width: 900,
@@ -74,6 +122,7 @@ export const defaultElevatorConfig: ElevatorConfig = {
   },
 
   glassWalls: "standard",
+
   glassFinish: "tinted",
 
   wall: {
@@ -86,75 +135,37 @@ export const defaultElevatorConfig: ElevatorConfig = {
     type: "large-glass",
     panelType: "glass",
     sameAsWall: false,
-    color: "#2F3033",
+    color: "#E4D0AF",
   },
 
-  // Door positions
-  floorConfigurations: [
-    { floor: 0, doorPositions: ["front"] },
-    { floor: 1, doorPositions: ["front"] },
-    { floor: 2, doorPositions: ["front"] },
-    { floor: 3, doorPositions: ["front"] },
-    { floor: 4, doorPositions: ["front"] },
-    { floor: 5, doorPositions: ["front"] },
-  ],
+  /* ==========================================================
+     DOOR POSITIONS
+  ========================================================== */
 
-  // Construction wall configuration
-  floorWallConfigurations: [
-    {
-      floor: 0,
-      walls: {
-        front: "glass",
-        left: "glass",
-        right: "glass",
-      },
-    },
-    {
-      floor: 1,
-      walls: {
-        front: "glass",
-        left: "glass",
-        right: "glass",
-      },
-    },
-    {
-      floor: 2,
-      walls: {
-        front: "glass",
-        left: "glass",
-        right: "glass",
-      },
-    },
-    {
-      floor: 3,
-      walls: {
-        front: "glass",
-        left: "glass",
-        right: "glass",
-      },
-    },
-    {
-      floor: 4,
-      walls: {
-        front: "glass",
-        left: "glass",
-        right: "glass",
-      },
-    },
-    {
-      floor: 5,
-      walls: {
-        front: "glass",
-        left: "glass",
-        right: "glass",
-      },
-    },
-  ],
+  floorConfigurations: Array.from({ length: DEFAULT_FLOORS }, (_, floor) =>
+    createDefaultFloorConfiguration(floor),
+  ),
+
+  /* ==========================================================
+     CONSTRUCTION WALLS
+  ========================================================== */
+
+  floorWallConfigurations: Array.from({ length: DEFAULT_FLOORS }, (_, floor) =>
+    createDefaultFloorWallConfiguration(floor),
+  ),
+
+  /* ==========================================================
+     FLOORING
+  ========================================================== */
 
   flooring: {
     type: "theme",
     value: "aged-oak",
   },
+
+  /* ==========================================================
+     CEILING
+  ========================================================== */
 
   ceiling: {
     height: 2400,
