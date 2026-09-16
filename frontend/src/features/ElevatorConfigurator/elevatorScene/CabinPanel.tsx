@@ -103,7 +103,7 @@ const CabinPanel = ({
   ======================================================= */
 
   const localWidth = isSide ? size[2] : size[0];
-
+  console.log(showSeams, showTrim, depth, decorativeHeight, panelWidth);
   return (
     <group position={position} rotation={rotation}>
       {/* =====================================================
