@@ -4,6 +4,7 @@ import app from "./src/app.js";
 import pool from "./src/config/db.js";
 import migrate from "./src/db/migrate.js";
 import seedUsers from "./src/db/seeds/seedUsers.js";
+
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
