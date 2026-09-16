@@ -1,1 +1,133 @@
 @import "tailwindcss";
+@import "./styles/variables.css";
+
+@theme inline {
+  /* =======================================================
+     COLORS
+     ======================================================= */
+
+  --color-primary: var(--token-color-accent);
+  --color-primary-light: var(--token-color-accent-light);
+  --color-primary-dark: var(--token-color-accent-dark);
+  --color-primary-soft: var(--token-color-accent-soft);
+  --color-primary-border: var(--token-color-accent-border);
+  --color-primary-glow: var(--token-color-accent-glow);
+
+  --color-background: var(--token-color-bg);
+  --color-background-primary: var(--token-color-bg-primary);
+  --color-background-secondary: var(--token-color-bg-secondary);
+  --color-background-tertiary: var(--token-color-bg-tertiary);
+
+  --color-surface: var(--token-color-surface);
+  --color-surface-hover: var(--token-color-surface-hover);
+  --color-surface-active: var(--token-color-surface-active);
+  --color-surface-elevated: var(--token-color-surface-elevated);
+
+  --color-text: var(--token-color-text-primary);
+  --color-text-primary: var(--token-color-text-primary);
+  --color-text-secondary: var(--token-color-text-secondary);
+  --color-text-tertiary: var(--token-color-text-tertiary);
+  --color-text-muted: var(--token-color-text-muted);
+  --color-text-inverse: var(--token-color-text-inverse);
+
+  --color-border: var(--token-color-border);
+  --color-border-light: var(--token-color-border-light);
+  --color-border-dark: var(--token-color-border-dark);
+
+  --color-success: var(--token-color-success);
+  --color-warning: var(--token-color-warning);
+  --color-error: var(--token-color-error);
+  --color-info: var(--token-color-info);
+
+  /* =======================================================
+     TYPOGRAPHY
+     ======================================================= */
+
+  --font-sans: var(--token-font-primary);
+  --font-display: var(--token-font-display);
+  --font-mono: var(--token-font-mono);
+
+  --text-xs: var(--token-text-xs);
+  --text-sm: var(--token-text-sm);
+  --text-md: var(--token-text-md);
+  --text-base: var(--token-text-base);
+  --text-lg: var(--token-text-lg);
+  --text-xl: var(--token-text-xl);
+  --text-2xl: var(--token-text-2xl);
+  --text-3xl: var(--token-text-3xl);
+  --text-4xl: var(--token-text-4xl);
+  --text-5xl: var(--token-text-5xl);
+
+  /* =======================================================
+     SPACING
+     ======================================================= */
+
+  --spacing-0: var(--token-space-0);
+  --spacing-1: var(--token-space-1);
+  --spacing-2: var(--token-space-2);
+  --spacing-3: var(--token-space-3);
+  --spacing-4: var(--token-space-4);
+  --spacing-5: var(--token-space-5);
+  --spacing-6: var(--token-space-6);
+  --spacing-7: var(--token-space-7);
+  --spacing-8: var(--token-space-8);
+  --spacing-10: var(--token-space-10);
+  --spacing-12: var(--token-space-12);
+  --spacing-14: var(--token-space-14);
+  --spacing-16: var(--token-space-16);
+  --spacing-20: var(--token-space-20);
+  --spacing-24: var(--token-space-24);
+
+  /* =======================================================
+     RADIUS
+     ======================================================= */
+
+  --radius-xs: var(--token-radius-xs);
+  --radius-sm: var(--token-radius-sm);
+  --radius-md: var(--token-radius-md);
+  --radius-lg: var(--token-radius-lg);
+  --radius-xl: var(--token-radius-xl);
+  --radius-2xl: var(--token-radius-2xl);
+  --radius-full: var(--token-radius-full);
+
+  /* =======================================================
+     SHADOWS
+     ======================================================= */
+
+  --shadow-xs: var(--token-shadow-xs);
+  --shadow-sm: var(--token-shadow-sm);
+  --shadow-md: var(--token-shadow-md);
+  --shadow-lg: var(--token-shadow-lg);
+  --shadow-panel: var(--token-shadow-panel);
+  --shadow-accent: var(--token-shadow-accent);
+
+  --sidebar-width: var(--token-sidebar-width);
+  --sidebar-collapsed-width: var(--token-sidebar-collapsed-width);
+  --sidebar-mobile-width: var(--token-sidebar-mobile-width);
+
+  --spacing-sidebar: 250px;
+  --spacing-sidebar-collapsed: 76px;
+  --spacing-sidebar-mobile: 280px;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--token-color-border);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--token-color-accent);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--token-color-border) transparent;
+}

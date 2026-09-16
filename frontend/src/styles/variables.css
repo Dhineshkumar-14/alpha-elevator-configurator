@@ -1,0 +1,280 @@
+/* =========================================================
+   ALPHA ELEVATOR CONFIGURATOR
+   Global Design Tokens
+   ========================================================= */
+
+:root {
+  /* =======================================================
+     COLORS
+     ======================================================= */
+
+  /* Background */
+  --token-color-bg: #151413;
+  --token-color-bg-primary: #151413;
+  --token-color-bg-secondary: #1c1b19;
+  --token-color-bg-tertiary: #24221f;
+
+  /* Surfaces */
+  --token-color-surface: #201f1c;
+  --token-color-surface-hover: #282622;
+  --token-color-surface-active: #302d28;
+  --token-color-surface-elevated: #292722;
+
+  /* Text */
+  --token-color-text-primary: #f4f0e8;
+  --token-color-text-secondary: #b8b2a7;
+  --token-color-text-tertiary: #817b71;
+  --token-color-text-muted: #666158;
+  --token-color-text-inverse: #171614;
+
+  /* Accent */
+  --token-color-accent: #c8a875;
+  --token-color-accent-light: #dbc18f;
+  --token-color-accent-dark: #9d7d4c;
+  --token-color-accent-soft: rgba(200, 168, 117, 0.12);
+  --token-color-accent-border: rgba(200, 168, 117, 0.55);
+  --token-color-accent-glow: rgba(200, 168, 117, 0.18);
+
+  /* Borders */
+  --token-color-border: rgba(255, 255, 255, 0.09);
+  --token-color-border-light: rgba(255, 255, 255, 0.14);
+  --token-color-border-dark: rgba(255, 255, 255, 0.05);
+
+  /* States */
+  --token-color-success: #8eaa83;
+  --token-color-warning: #c9a76b;
+  --token-color-error: #c47d76;
+  --token-color-info: #8298a9;
+
+  /* Overlay */
+  --token-color-overlay: rgba(0, 0, 0, 0.55);
+  --token-color-overlay-heavy: rgba(0, 0, 0, 0.75);
+
+  /* =======================================================
+     TYPOGRAPHY
+     ======================================================= */
+
+  --token-font-primary: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --token-font-display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --token-font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  /* Font sizes */
+  --token-text-xs: 0.6875rem;
+  --token-text-sm: 0.75rem;
+  --token-text-md: 0.875rem;
+  --token-text-base: 1rem;
+  --token-text-lg: 1.125rem;
+  --token-text-xl: 1.25rem;
+  --token-text-2xl: 1.5rem;
+  --token-text-3xl: 2rem;
+  --token-text-4xl: 2.5rem;
+  --token-text-5xl: 3rem;
+
+  /* Font weights */
+  --token-font-light: 300;
+  --token-font-regular: 400;
+  --token-font-medium: 500;
+  --token-font-semibold: 600;
+  --token-font-bold: 700;
+
+  /* Line heights */
+  --token-leading-tight: 1.15;
+  --token-leading-snug: 1.3;
+  --token-leading-normal: 1.5;
+  --token-leading-relaxed: 1.7;
+
+  /* Letter spacing */
+  --token-tracking-tight: -0.02em;
+  --token-tracking-normal: 0;
+  --token-tracking-wide: 0.04em;
+  --token-tracking-wider: 0.08em;
+  --token-tracking-uppercase: 0.12em;
+
+  /* =======================================================
+     SPACING
+     ======================================================= */
+
+  --token-space-0: 0;
+  --token-space-1: 0.25rem;
+  --token-space-2: 0.5rem;
+  --token-space-3: 0.75rem;
+  --token-space-4: 1rem;
+  --token-space-5: 1.25rem;
+  --token-space-6: 1.5rem;
+  --token-space-7: 1.75rem;
+  --token-space-8: 2rem;
+  --token-space-10: 2.5rem;
+  --token-space-12: 3rem;
+  --token-space-14: 3.5rem;
+  --token-space-16: 4rem;
+  --token-space-20: 5rem;
+  --token-space-24: 6rem;
+
+  /* =======================================================
+     PAGE LAYOUT
+     ======================================================= */
+
+  --token-header-height: 72px;
+  --token-bottom-bar-height: 76px;
+
+  --token-preview-width: 70%;
+  --token-configurator-width: 30%;
+
+  --token-panel-width: 440px;
+  --token-panel-min-width: 360px;
+  --token-panel-max-width: 520px;
+
+  --token-content-max-width: 1600px;
+
+  --token-page-padding-x: var(--token-space-8);
+  --token-page-padding-y: var(--token-space-6);
+
+  /* =======================================================
+     BORDER RADIUS
+     ======================================================= */
+
+  --token-radius-xs: 4px;
+  --token-radius-sm: 6px;
+  --token-radius-md: 10px;
+  --token-radius-lg: 14px;
+  --token-radius-xl: 18px;
+  --token-radius-2xl: 24px;
+  --token-radius-full: 9999px;
+
+  /* =======================================================
+     BORDERS
+     ======================================================= */
+
+  --token-border-width: 1px;
+  --token-border-width-thick: 2px;
+
+  /* =======================================================
+     SHADOWS
+     ======================================================= */
+
+  --token-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.15);
+  --token-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.18);
+  --token-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.25);
+  --token-shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.35);
+  --token-shadow-panel: 0 16px 40px rgba(0, 0, 0, 0.3);
+  --token-shadow-accent: 0 0 24px var(--token-color-accent-glow);
+
+  /* =======================================================
+     COMPONENT SIZES
+     ======================================================= */
+
+  /* Buttons */
+  --token-button-height-sm: 32px;
+  --token-button-height-md: 40px;
+  --token-button-height-lg: 48px;
+  --token-button-height-xl: 56px;
+
+  --token-button-padding-x: var(--token-space-5);
+  --token-button-padding-x-lg: var(--token-space-6);
+
+  /* Inputs */
+  --token-input-height: 44px;
+  --token-input-height-lg: 52px;
+
+  /* Touch targets */
+  --token-touch-target: 44px;
+  --token-touch-target-lg: 48px;
+
+  /* Icons */
+  --token-icon-xs: 14px;
+  --token-icon-sm: 16px;
+  --token-icon-md: 20px;
+  --token-icon-lg: 24px;
+  --token-icon-xl: 32px;
+
+  /* =======================================================
+     CONFIGURATOR
+     ======================================================= */
+
+  --token-config-padding: var(--token-space-6);
+  --token-config-gap: var(--token-space-6);
+
+  --token-option-gap: var(--token-space-3);
+  --token-option-padding: var(--token-space-4);
+
+  --token-material-card-width: 108px;
+  --token-material-card-height: 128px;
+
+  --token-model-card-height: 180px;
+
+  --token-preview-control-size: 40px;
+
+  /* Selection */
+  --token-selection-border: 1px solid var(--token-color-accent);
+
+  --token-selection-shadow:
+    0 0 0 1px var(--token-color-accent), 0 0 20px var(--token-color-accent-glow);
+
+  /* =======================================================
+     ANIMATION
+     ======================================================= */
+
+  --token-duration-fast: 150ms;
+  --token-duration-normal: 250ms;
+  --token-duration-medium: 350ms;
+  --token-duration-slow: 500ms;
+  --token-duration-preview: 750ms;
+
+  --token-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --token-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --token-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --token-transition-fast: var(--token-duration-fast) var(--token-ease-standard);
+
+  --token-transition-normal: var(--token-duration-normal) var(--token-ease-out);
+
+  --token-transition-medium: var(--token-duration-medium) var(--token-ease-out);
+
+  --token-transition-preview: var(--token-duration-preview)
+    var(--token-ease-out);
+
+  /* =======================================================
+     Z-INDEX
+     ======================================================= */
+
+  --token-z-base: 1;
+  --token-z-preview: 10;
+  --token-z-panel: 20;
+  --token-z-header: 30;
+  --token-z-bottom-bar: 40;
+  --token-z-dropdown: 50;
+  --token-z-modal: 100;
+  --token-z-toast: 200;
+
+  /* =======================================================
+     BREAKPOINTS
+     ======================================================= */
+
+  --token-breakpoint-mobile: 640px;
+  --token-breakpoint-tablet: 768px;
+  --token-breakpoint-desktop: 1024px;
+  --token-breakpoint-wide: 1280px;
+  --token-breakpoint-xl: 1536px;
+
+  /* =======================================================
+     OPACITY
+     ======================================================= */
+
+  --token-opacity-disabled: 0.45;
+  --token-opacity-muted: 0.65;
+  --token-opacity-hover: 0.85;
+  --token-opacity-full: 1;
+
+  /* =======================================================
+     BLUR
+     ======================================================= */
+
+  --token-blur-sm: 4px;
+  --token-blur-md: 8px;
+  --token-blur-lg: 16px;
+  --token-blur-xl: 24px;
+
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 76px;
+  --sidebar-mobile-width: 280px;
+}

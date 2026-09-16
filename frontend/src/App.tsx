@@ -1,20 +1,47 @@
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import ElevatorConfiguratorPage from "./pages/ElevatorConfiguratorPage";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+import DashboardLayout from "./layouts/DashboardLayout";
+import LeadsPage from "./pages/LeadsPage";
 
 function App() {
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center">
-      <section className="rounded-xl bg-white p-10 text-center">
-        <h1 className="text-4xl font-bold text-blue-600">
-          Tailwind is Working 🚀
-        </h1>
+    <BrowserRouter>
+      <Routes>
+        {/* Public */}
+        <Route path="/login" element={<LoginPage />} />
 
-        <p className="mt-4 text-gray-600">Alpha Elevator Configurator</p>
+        {/* Protected */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
 
-        <button className="mt-6 rounded-lg bg-black px-6 py-3 text-white hover:bg-gray-800">
-          Test Button
-        </button>
-      </section>
-    </main>
+            <Route
+              path="/configurator"
+              element={<ElevatorConfiguratorPage />}
+            />
+
+            {/* Add future pages here */}
+
+            <Route path="/leads" element={<LeadsPage />} />
+            {/* <Route path="/customers" element={<CustomersPage />} />
+            <Route path="/quotations" element={<QuotationsPage />} />
+            <Route path="/site-visits" element={<SiteVisitsPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            */}
+          </Route>
+        </Route>
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

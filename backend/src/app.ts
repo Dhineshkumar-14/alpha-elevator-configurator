@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-
+import authRouter from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 const app = express();
 
 app.use(
@@ -9,13 +10,12 @@ app.use(
     credentials: true,
   }),
 );
-
 app.use(express.json());
-
-app.get("/api/health", (_req, res) => {
+app.use(cookieParser());
+app.use("/api/auth", authRouter);
+app.get("/", (req, res) => {
   res.json({
-    success: true,
-    message: "Alpha Elevator Configurator API is running",
+    message: "Alpha Elevators API is running",
   });
 });
 
