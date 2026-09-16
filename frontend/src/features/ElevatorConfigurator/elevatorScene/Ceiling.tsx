@@ -1,5 +1,4 @@
 import { RoundedBox } from "@react-three/drei";
-import * as THREE from "three";
 
 interface CeilingProps {
   position: [number, number, number];

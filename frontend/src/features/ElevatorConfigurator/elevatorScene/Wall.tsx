@@ -19,7 +19,6 @@ const Wall = ({
   size,
   color = "#6E2929",
   texture,
-  mirror = false,
   handles = false,
 }: WallProps) => {
   const wallTexture = texture ? useTexture(texture) : null;
@@ -47,7 +46,6 @@ const Wall = ({
    *
    * This gives the handrail a more natural elevator-cabin height.
    */
-  const handrailY = -height * 0.18;
 
   return (
     <group position={position}>

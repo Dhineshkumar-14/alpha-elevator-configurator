@@ -13,9 +13,6 @@ const FLOOR_HEIGHT = 2.6;
 const SCALE = 0.001;
 
 const ElevatorScene = ({ config }: ElevatorSceneProps) => {
-  const width = config.dimensions.width * SCALE;
-  const depth = config.dimensions.depth * SCALE;
-
   const totalHeight = config.floors * FLOOR_HEIGHT;
 
   const cameraDistance = Math.max(8, totalHeight * 1.5);

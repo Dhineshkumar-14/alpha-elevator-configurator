@@ -1,5 +1,3 @@
-import { ChevronUp } from "lucide-react";
-import type { ElevatorConfig } from "./elevatorConfig";
 import agedOak from "../../assets/elevator/flooring/aged_oak.webp";
 import alphaFlowStreamSilver from "../../assets/elevator/flooring/alpha_flow_stream_silver.webp";
 import alphaGraphicGradient from "../../assets/elevator/flooring/alpha_graphic_gradient.webp";
@@ -17,9 +15,10 @@ import orange from "../../assets/elevator/walls/orange.webp";
 import orientalic from "../../assets/elevator/walls/orientalic.webp";
 import pink from "../../assets/elevator/walls/pink.webp";
 import sheet from "../../assets/elevator/walls/sheet.webp";
+import skyline from "../../assets/elevator/walls/skyline.webp";
 import structure from "../../assets/elevator/walls/structure.webp";
 import white from "../../assets/elevator/walls/white.webp";
-import skyline from "../../assets/elevator/walls/skyline.webp";
+import type { ElevatorConfig } from "./elevatorConfig";
 
 interface InteriorSelectionProps {
   config: ElevatorConfig;
